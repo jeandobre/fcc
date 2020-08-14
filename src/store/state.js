@@ -1,5 +1,10 @@
 export default {
 	usuarios: [],
 	formularios: [],
-	usuarioLogado: {}
+	usuarioLogado: {},
+	mensagem: {
+		texto: "",
+		mostrar: false,
+		cor: "success"
+	}
 }

@@ -4,10 +4,7 @@
 			<v-card-title class="title font-weight-regular justify-space-between">
 				<span>{{ title }}</span>
 
-				<v-btn small class="success" @click="salvar()" >
-					Salvar
-				</v-btn>
-
+				<v-btn small class="success" @click="salvar()">Salvar</v-btn>
 			</v-card-title>
 
 			<v-card class="ma-2">
@@ -15,7 +12,7 @@
 				<v-card-text>
 					<v-row>
 						<v-col>
-							<v-text-field label="Nº do lacre:" v-model="lacre"></v-text-field>
+							<v-text-field label="Nº do lacre:" v-model="lacre.valor" :rules="lacre.regras"></v-text-field>
 						</v-col>
 						<v-col class="col-2">
 							<v-menu
@@ -28,10 +25,10 @@
 							>
 								<template v-slot:activator="{ on, attrs }">
 									<v-text-field
-										v-model="date"
+										v-model="dataFormatada"
 										label="Data da coleta"
 										prepend-icon="mdi-calendar"
-										@blur="date = parseDate(date)"
+										@blur="date = parseDate(dataFormatada)"
 										readonly
 										v-bind="attrs"
 										v-on="on"
@@ -40,17 +37,9 @@
 								<v-date-picker locale="pt-br" v-model="date" @input="menu2 = false"></v-date-picker>
 							</v-menu>
 						</v-col>
+
 						<v-col class="col-2">
-							
-							
-									<v-text-field
-										v-model="time"
-										label="Hora da coleta"
-										prepend-icon="mdi-timer"
-									
-									></v-text-field>
-					
-							
+							<v-text-field v-model="hora" label="Hora da coleta" prepend-icon="mdi-timer"></v-text-field>
 						</v-col>
 
 						<v-col>
@@ -62,7 +51,7 @@
 							<v-select :items="unidades" label="Unidade" v-model="unidade"></v-select>
 						</v-col>
 						<v-col class="col-2">
-							<v-select :items="procedimentos" label="Procedimento:" v-model="procedimento"></v-select>							
+							<v-select :items="procedimentos" label="Procedimento:" v-model="procedimento"></v-select>
 						</v-col>
 						<v-col>
 							<v-text-field v-model="procedimentoNumero"></v-text-field>
@@ -79,16 +68,11 @@
 								v-model="endereco"
 								hint="Cep, Rua, Número, Bairro, etc."
 								persistent-hint
-								no-resize			
+								no-resize
 							></v-textarea>
 						</v-col>
 						<v-col>
-							<v-textarea
-								label="Descrição do vestígio/vítima/suspeito:"
-								v-model="vestigio"
-								no-resize
-								
-							></v-textarea>
+							<v-textarea label="Descrição do vestígio/vítima/suspeito:" v-model="vestigio" no-resize></v-textarea>
 						</v-col>
 
 						<v-col>
@@ -125,13 +109,20 @@ export default {
 		title: "Novo formulário de cadeia de custódia",
 		menu2: false,
 		menu1: false,
-		time: null,
+		hora: null,
 		date: null,
+		dataFormatada: "",
 		unidades: [
 			"Unidade Regional de Perícia de Ponta Pora",
 			" Segunda delegacia de polícia de ponta pora",
 		],
-		lacre: "",
+		lacre: {
+			valor: "",
+			regras: [
+				(value) => !!value || "Campo obrigatório!",
+				(value) => (value || "").length <= 20 || "Máx. 20 caracteres",
+			],
+		},
 		registro: "",
 		unidade: "",
 		procedimento: "",
@@ -140,29 +131,45 @@ export default {
 		endereco: null,
 		vestigio: null,
 		localizacao: null,
-		procedimentos: ["BO", "TCO", "IP", "IPM", "AAAI"]
+		procedimentos: ["BO", "TCO", "IP", "IPM", "AAAI"],
 	}),
 
 	methods: {
-		...mapMutations(["setFormularios"]),
+		...mapMutations(["setFormularios", "setMensagem"]),
 
 		parseDate(date) {
 			if (!date) return null;
 
-			const [month, day, year] = date.split("/");
+			const [day, month, year] = date.split("/");
 			return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
 		},
 
-		salvar() {
+		formatDate (date) {
+			if (!date) return null
 
-			//todo gerar id randomicamente 
-			const id = Math.floor((Math.random() * 10000) + 1);
+			const [year, month, day] = date.split('-')
+			return `${day}/${month}/${year}`
+    },
+
+		salvar() {
+			if (!this.lacre.valor) {
+				this.setMensagem({
+					cor: "error",
+					texto: "O campo número do lacre é obrigatório!",
+					mostrar: true,
+				});
+
+				return;
+			}
+
+			//todo gerar id randomicamente
+			const id = Math.floor(Math.random() * 10000 + 1);
 
 			const formularios = [];
 			formularios.push({
 				id,
-				lacre: this.lacre,
-				dataHora: this.date + " - " + this.time,
+				lacre: this.lacre.valor,
+				dataHora: this.dataFormatada + " " + this.hora,
 				registro: this.registro,
 				unidade: this.unidade,
 				procedimento: this.procedimento + " - " + this.procedimentoNumero,
@@ -171,20 +178,42 @@ export default {
 				vestigio: this.vestigio,
 				localizacao: this.localizacao,
 				status: "CADASTRADO",
-				custodiante: this.usuarioLogado
-			})
+				custodiante: this.usuarioLogado,
+				cadeia: []
+			});
 
 			this.setFormularios(formularios);
 
-			this.$router.push({ name: "EnviarFCC", params: {
-				id
-			} })
-		}
+			this.$router.push({
+				name: "EnviarFCC",
+				params: {
+					id,
+				},
+			});
+		},
 	},
 
 	computed: {
 		...mapState(["usuarioLogado", "formularios"]),
-	}
+	},
+
+	created() {
+		this.data = new Date().toISOString().substr(1,10);
+		this.dataFormatada = this.formatDate(new Date().toISOString().substr(0, 10));
+
+		const d =  new Date();
+		let min = d.getMinutes();
+		if (min < 10)
+			min = "0" + min;
+
+		this.hora = `${d.getHours()}:${min}`;
+	},
+
+	watch: {
+		date (val) {
+			this.dataFormatada = this.formatDate(val)
+		},
+	},
 };
 </script>
 

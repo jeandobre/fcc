@@ -8,6 +8,20 @@
 			<Menu :items="menus" />
 			<Content></Content>
 			<Footer></Footer>
+			<v-snackbar v-model="mensagem.mostrar" 
+				:color="mensagem.cor">
+
+				{{ mensagem.texto }}
+				
+				<template v-slot:action="{ attrs }">
+        <v-btn
+          text
+          v-bind="attrs"
+          @click="mensagem.mostrar = false">
+          Fechar
+        </v-btn>
+      </template>
+			</v-snackbar>
 		</v-app>
 		
 	</div>
@@ -18,7 +32,7 @@ import Content from "./components/Content";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
 
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
 	components: {
@@ -51,6 +65,10 @@ export default {
 			},
 		],
   }),
+
+	computed: {
+		...mapState(["mensagem"])
+	},
 
   methods: {
     ...mapMutations(["setUsuarioLogado", "setUsuarios", "setFormularios"])
