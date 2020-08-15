@@ -164,7 +164,6 @@ export default {
 
 			//todo gerar id randomicamente
 			const id = Math.floor(Math.random() * 10000 + 1);
-
 			
 			const formulario = {
 				id,
@@ -185,7 +184,7 @@ export default {
 			this.addFormulario(formulario);
 
 			this.$router.push({
-				name: "EnviarFCC",
+				name: "VerFCC",
 				params: {
 					id,
 				},

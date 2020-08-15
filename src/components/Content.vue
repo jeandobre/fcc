@@ -1,8 +1,9 @@
 <template>
   <v-main>
-    <v-conainer class="fill-height" fluid>
+    <v-container fluid>
       <router-view/>
-    </v-conainer>    
+      <router-view name="modal"/>
+    </v-container>    
   </v-main>
 </template>
 

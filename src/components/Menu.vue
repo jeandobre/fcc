@@ -18,7 +18,11 @@
 <script>
 export default {
 	name: "Menu",
-	props: ["items", "drawer"]
+  props: ["items", "drawer"],
+  model: {
+    prop: "drawer",
+    event: "input"
+  }
 }
 </script>
 

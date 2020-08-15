@@ -13,22 +13,12 @@
 				dense
 				class="elevation-1">
 				<template v-slot:item.actions="{ item }">
-					<v-btn x-small icon 
-						v-if="item.status === 'ENVIADO'"
+					<v-btn x-small class="mr-5"						
 						@click="verItem(item)">
 						<v-icon small>
-							mdi-arrow-bottom-left-thick
-						</v-icon>
-						Receber
-					</v-btn>
-					<v-btn x-small icon color="primary"
-						v-else
-						@click="verItem(item)">
-						<v-icon small>
-							mdi-arrow-top-right-thick
-						</v-icon>
-						Enviar
-					</v-btn>
+							mdi-text-box-search-outline
+						</v-icon>						
+					</v-btn>				
 				</template>
 			</v-data-table>
 		</v-card>
@@ -45,6 +35,12 @@ export default {
 				{
 					text: "#",
 					value: "id",
+					width: 50
+				},
+				{
+					text: "status",
+					value: "status",
+					width: 80
 				},
 				{
 					text: "Lacre",
@@ -53,13 +49,11 @@ export default {
 				{
 					text: "Data/Hora",
 					value: "dataHora",
-				},
+					width: 150
+				},				
 				{
-					text: "status",
-					value: "status",
-				},
-				{
-					value: "actions"
+					value: "actions",
+					width: 40
 				}
 			];
 		},
@@ -67,6 +61,14 @@ export default {
 
 	methods: {
 		verItem( item ){
+			this.$router.push({
+				name: "VerFCC",
+				params: {
+					id: item.id
+				}
+			})
+		},
+		enviarItem( item ){
 			this.$router.push({
 				name: "EnviarFCC",
 				params: {

@@ -71,7 +71,7 @@ export default {
 	},
 
   methods: {
-    ...mapMutations(["setUsuarioLogado", "setUsuarios", "setFormularios"])
+    ...mapMutations(["setUsuarioLogado", "setUsuarios"])
   },
   
   created() {
@@ -85,7 +85,7 @@ export default {
       lotacao: "Dourados/MS",
       cargo: "Especialista"
     }, {
-      avatar: "https://pps.whatsapp.net/v/t61.24694-24/117538057_646756359302375_1299727773366108578_n.jpg?oh=71f766caf6c28eafa0ac524b39322976&oe=5F349A8C",
+      avatar: "https://pickaface.net/gallery/avatar/sigitwibowo190852999f4e8a99e.png",
       nome: "Paulo Dobre",
       cpf: "00011122200",
       matricula: "151515",
@@ -95,8 +95,7 @@ export default {
       cargo: "Escrivão"
     }]
     this.setUsuarios(usuarios);
-    this.setUsuarioLogado(usuarios[1]);
-    this.setFormularios([]);
+    this.setUsuarioLogado(usuarios[1]);    
   }
 };
 </script>

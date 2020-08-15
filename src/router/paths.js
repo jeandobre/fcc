@@ -1,5 +1,6 @@
 import Home from '@/pages/Home.vue';
 import Login from "@/pages/Login.vue";
+import NotFound from "@/pages/NotFound.vue";
 
 export default [
   {
@@ -26,7 +27,11 @@ export default [
   { 
     path: "/fcc/enviar/:id",
     name: "EnviarFCC",
-    component: () => import(/* webpackChunkName: "enviar_fcc" */ '@/pages/fcc/Send.vue')
+
+    components: {
+      default: () => import(/* webpackChunkName: "ver_fcc" */ '@/pages/fcc/View.vue'),
+      modal: () => import(/* webpackChunkName: "enviar_fcc" */ '@/pages/fcc/Send.vue')
+    }
   },
   { 
     path: "/fcc/listar",
@@ -45,5 +50,7 @@ export default [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '@/pages/About.vue')
-  }
+  },
+
+  { path: '*', component: NotFound }
 ];

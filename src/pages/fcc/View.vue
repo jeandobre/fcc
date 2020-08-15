@@ -9,14 +9,18 @@
 				<v-btn small class="secundary ml-3" v-if="formulario.status === 'CADASTRADO'" @click="alterar()">Alterar</v-btn>
 				<v-btn small class="primary ml-3" 
 					v-if="formulario.status === 'CADASTRADO'" 
-					@click="abrir()">
+					@click="enviar()">
 					<v-icon small>
 						mdi-arrow-top-right-thick
 					</v-icon>
 					Enviar
 				</v-btn>
 
-				<v-btn small class="secundary" v-if="formulario.status === 'ENVIADO'" @click="imprimir()">Imprimir</v-btn>
+				<v-btn small class="secundary" v-if="formulario.status !== 'CADASTRADO'" @click="imprimir()">
+					<v-icon>
+						mdi-printer
+					</v-icon>
+				</v-btn>
 			</v-card-title>
 
 			<v-card class="ma-2">
@@ -88,61 +92,21 @@
 					<v-data-table dense
 						:headers="headers" 
 						:items="formulario.cadeia">
-
+						<template v-slot:item.icons="{ item }">
+							<v-icon v-if="item.enviado">
+								mdi-arrow-top-right-thick
+							</v-icon>
+						</template>
 					</v-data-table>
 				</v-card-text>
 			</v-card>
 		</v-card>
-
-		<v-dialog v-model="dialog" width="600">
-			<v-card dense>
-        <v-card-title class="headline">
-					Confirmar envio
-        </v-card-title>
-
-        <v-card-text>
-					<div>
-						<b>Data/hora atual:</b> {{ dataHora }}
-						</div>
-					<div>
-						<b>Responsável:</b>
-						{{ usuarioLogado.nome }}
-					</div>
-					<div>
-						<b>Matrícula/Lotação:</b>
-						{{ usuarioLogado.matricula }} / {{ usuarioLogado.lotacao }}
-					</div>
-					<v-select :items="items" label="Selecione a unidade para enviar:" v-model="unidade"> 						
-					</v-select>
-
-					<v-text-field label="Razão da movimentação:" v-model="motivo"></v-text-field>
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-					<v-btn
-            color="error"
-            text
-            @click="dialog = false"
-          >
-            Cancelar
-          </v-btn>
-          <v-btn
-            color="primary"
-            text
-            @click="enviar()"
-          >
-            Enviar
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-		</v-dialog>
-
 	</div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import jsPDF from "jspdf";
 
 export default {
 	data: () => ({
@@ -169,6 +133,9 @@ export default {
 		}, {
 			text: "Razão da movimentação",
 			value: "razao"
+		}, {
+			value: "icons",
+			width: 40
 		}]
 	}),
 
@@ -191,41 +158,25 @@ export default {
 			alert(`Formulário com id ${id} não encontrado!`);
 		}
 
-		const data = new Date().toISOString().substr(0,10);
-		const [year, month, day] = data.split("-");
-		const hora =  new Date();
-		let min = hora.getMinutes();
-		if (min < 10)
-			min = "0" + min;
-
-		this.dataHora = `${day}/${month}/${year} ${hora.getHours()}:${min}`;
-
 		this.formulario = frm; 
 	},
 
 	methods: {
 
-		abrir() {
-			this.dialog = true;
+		enviar() {
+			this.$router.push({
+				name: "EnviarFCC",
+				params: {
+					id: this.formulario.id
+				}
+			})
 		},
 
-		enviar() {
-
-			const numero = this.formulario.cadeia.length + 1;
-			this.formulario.cadeia.push({
-				numero,
-				pessoa: this.usuarioLogado.nome,
-				dataHora: this.dataHora,
-				matricula: this.usuarioLogado.matricula,
-				lotacao: this.usuarioLogado.lotacao,
-				unidade: this.unidade,
-				razao: this.motivo
-			});
-
-			this.formulario.status = "ENVIADO";
-			
-			this.dialog = false;
-
+		imprimir() {
+			const pdfName = "formulario_" + this.formulario.id;
+			var doc = new jsPDF();
+			doc.text("Formulário FCC", 10, 100);
+			doc.save(pdfName + ".pdf");
 		}
 	}
 };
