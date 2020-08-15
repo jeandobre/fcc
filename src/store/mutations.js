@@ -7,5 +7,6 @@ export default {
 	setMensagem: set("mensagem"),
 	addFormulario(state, formulario) {
 		state.formularios.push(formulario);
-	}
+	},
+	setUnidades: set("unidades")
 };

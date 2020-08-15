@@ -48,8 +48,8 @@ export default {
 					width: 120
 				},
 				{
-					text: "Local",
-					value: "localAtual"
+					text: "Unidade",
+					value: "unidadeAtual"
 				},
 				{
 					text: "Data/Hora",

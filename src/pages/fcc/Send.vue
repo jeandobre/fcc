@@ -19,7 +19,8 @@
 						<b>Matrícula/Lotação:</b>
 						{{ usuarioLogado.matricula }} / {{ usuarioLogado.lotacao }}
 					</div>
-					<v-select :items="items" label="Selecione a unidade para enviar:" v-model="unidade"> 						
+					<v-select :items="items" label="Selecione a unidade para enviar:"
+						v-model="unidade"> 						
 					</v-select>
 
 					<v-text-field label="Razão da movimentação:" v-model="motivo"></v-text-field>
@@ -57,21 +58,21 @@ export default {
 			custodiante: {}
 		},
 		dialog: true,
-		items: ["Delegacia", "Cartório", "Perícia", "Custódia", "Vara criminal"],
+		items: [],
 		motivo: "",
 		unidade: "",
 		datahora: "",		
 	}),
 
 	computed: {
-		...mapState(["formularios", "usuarioLogado"]),
+		...mapState(["formularios", "usuarioLogado", "unidades"]),
 
 		title() {
 			return "Gerenciar formulário";
 		}
 	},
 
-	created() {
+	async created() {
 		const id = this.$route.params.id;
 
 		const formularios = [...this.formularios];
@@ -81,6 +82,19 @@ export default {
 		if (!frm) {
 			alert(`Formulário com id ${id} não encontrado!`);
 		}
+
+		this.items = await this.unidades.map(unidade => {
+			if(this.usuarioLogado.unidades.includes(unidade))
+				return {
+					text: unidade,
+					disabled: true,
+					value: unidade
+				}
+			return {
+				text: unidade,
+				value: unidade
+			};
+		});
 
 		const data = new Date().toISOString().substr(0,10);
 		const [year, month, day] = data.split("-");
@@ -112,7 +126,7 @@ export default {
 			});
 
 			this.formulario.status = "ENVIADO";
-			this.formulario.localAtual = this.unidade;
+			this.formulario.unidadeAtual = this.unidade;
 			
 			this.dialog = false;
 

@@ -3,7 +3,7 @@
 		<v-card class="mx-auto">
 			<v-card-title class="title font-weight-regular justify-space-between">
 				<span>{{ title }}</span>
-				<v-chip class="ml-3">{{ formulario.status }}</v-chip>
+				<v-chip class="ml-3">{{ formulario.status }} {{ formulario.unidadeAtual }}</v-chip>
 				
 				<v-spacer></v-spacer>
 				<v-btn small class="error" v-if="formulario.status === 'CADASTRADO'" @click="remover()">Excluir</v-btn>

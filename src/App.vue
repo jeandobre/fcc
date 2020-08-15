@@ -71,7 +71,7 @@ export default {
 	},
 
   methods: {
-    ...mapMutations(["setUsuarioLogado", "setUsuarios"])
+    ...mapMutations(["setUsuarioLogado", "setUsuarios", "setUnidades"])
   },
   
   created() {
@@ -83,7 +83,8 @@ export default {
       login: "jeandobre",
       senha: "123456",
       lotacao: "Dourados/MS",
-      cargo: "Especialista"
+			cargo: "Especialista",
+			unidades: ["Pericia", "Cartorio"]
     }, {
       avatar: "https://pickaface.net/gallery/avatar/sigitwibowo190852999f4e8a99e.png",
       nome: "Paulo Dobre",
@@ -92,10 +93,22 @@ export default {
       login: "paulodobre",
       senha: "123456",
       lotacao: "Ponta Porã/MS",
-      cargo: "Escrivão"
-    }]
+			cargo: "Escrivão",
+			unidades: ["Delegacia"]
+    }, {
+			nome: "José de Alencar",
+      cpf: "89889898922",
+      matricula: "012546",
+      login: "josealencar",
+      senha: "123456",
+      lotacao: "Dourados/MS",
+			cargo: "Períto",
+			unidades: ["Delegacia", "Vara criminal"]
+		}]
     this.setUsuarios(usuarios);
-    this.setUsuarioLogado(usuarios[1]);    
+		this.setUsuarioLogado(usuarios[1]); 
+		
+		this.setUnidades(["Delegacia", "Cartório", "Perícia", "Custódia", "Vara criminal"])
   }
 };
 </script>

@@ -6,5 +6,6 @@ export default {
 		texto: "",
 		mostrar: false,
 		cor: "success"
-	}
+	},
+	unidades: []
 }
