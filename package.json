@@ -11,6 +11,7 @@
     "core-js": "^3.6.5",
     "jsonwebtoken": "^8.5.1",
     "jspdf": "^2.0.0",
+    "qrcodejs2": "0.0.2",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4",
     "vuetify": "^2.2.11",

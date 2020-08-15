@@ -45,6 +45,11 @@ export default {
 				{
 					text: "Lacre",
 					value: "lacre",
+					width: 120
+				},
+				{
+					text: "Local",
+					value: "localAtual"
 				},
 				{
 					text: "Data/Hora",

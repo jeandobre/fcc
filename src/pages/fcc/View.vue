@@ -4,6 +4,7 @@
 			<v-card-title class="title font-weight-regular justify-space-between">
 				<span>{{ title }}</span>
 				<v-chip class="ml-3">{{ formulario.status }}</v-chip>
+				
 				<v-spacer></v-spacer>
 				<v-btn small class="error" v-if="formulario.status === 'CADASTRADO'" @click="remover()">Excluir</v-btn>
 				<v-btn small class="secundary ml-3" v-if="formulario.status === 'CADASTRADO'" @click="alterar()">Alterar</v-btn>
@@ -101,12 +102,16 @@
 				</v-card-text>
 			</v-card>
 		</v-card>
+
+		<div style="position: absolute; visibility: hidden;" class="qrcode" ref="qrCodeUrl">
+		</div>
 	</div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import jsPDF from "jspdf";
+import QRCode from "qrcodejs2";
 
 export default {
 	data: () => ({
@@ -172,11 +177,31 @@ export default {
 			})
 		},
 
-		imprimir() {
+		async imprimir() {
 			const pdfName = "formulario_" + this.formulario.id;
-			var doc = new jsPDF();
-			doc.text("Formulário FCC", 10, 100);
+			var doc = new jsPDF('', 'pt', 'a4');
+			const dataURL = await this.gerarQRCode();
+			doc.addImage(dataURL, 'JPEG', 10, 10, 50, 50);
+			doc.text("FORMULÁRIO DE CADEIA DE CUSTÓDIA - FCC", 100, 40);
 			doc.save(pdfName + ".pdf");
+		},
+
+		gerarQRCode() {
+			const canvas = document.createElement("div");
+			canvas.id = "id";
+			this.$refs.qrCodeUrl.append(canvas);
+			
+			const text = `https://fcc-keep.herokuapp.com/fcc/ver/${this.formulario.id}`
+			new QRCode("id", {
+				text,
+				width: 128,
+				height: 128,
+				colorDark: "#000000",
+				colorLight: "#ffffff",
+				correctLevel: QRCode.CorrectLevel.H
+			});
+			let div = document.getElementById("id").querySelector("canvas");
+			return div.toDataURL();      
 		}
 	}
 };

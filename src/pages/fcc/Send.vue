@@ -112,6 +112,7 @@ export default {
 			});
 
 			this.formulario.status = "ENVIADO";
+			this.formulario.localAtual = this.unidade;
 			
 			this.dialog = false;
 
