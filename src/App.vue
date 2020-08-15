@@ -77,17 +77,17 @@ export default {
   created() {
     const usuarios = [{
       avatar: "https://avatars1.githubusercontent.com/u/15679617?s=460&u=5ba37f20de689c5b398ffab9c34afd6719a9459c&v=4",
-      nome: "Jean Dobre",
+      nome: "Jean A. Dobre",
       cpf: "00012345678",
       matricula: "123456",
       login: "jeandobre",
       senha: "123456",
       lotacao: "Dourados/MS",
 			cargo: "Especialista",
-			unidades: ["Pericia", "Cartorio"]
+			unidades: ["Perícia", "Cartório"]
     }, {
       avatar: "https://pickaface.net/gallery/avatar/sigitwibowo190852999f4e8a99e.png",
-      nome: "Paulo Dobre",
+      nome: "Paulo A. Dobre",
       cpf: "00011122200",
       matricula: "151515",
       login: "paulodobre",
@@ -97,6 +97,7 @@ export default {
 			unidades: ["Delegacia"]
     }, {
 			nome: "José de Alencar",
+			avatar: "https://pickaface.net/gallery/avatar/unr_bobbu_200814_0926_2gl37wg.png",
       cpf: "89889898922",
       matricula: "012546",
       login: "josealencar",
