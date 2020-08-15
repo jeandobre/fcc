@@ -12,6 +12,24 @@
 				:items-per-page="50" 
 				dense
 				class="elevation-1">
+				<template v-slot:item.actions="{ item }">
+					<v-btn x-small icon 
+						v-if="item.status === 'ENVIADO'"
+						@click="verItem(item)">
+						<v-icon small>
+							mdi-arrow-bottom-left-thick
+						</v-icon>
+						Receber
+					</v-btn>
+					<v-btn x-small icon color="primary"
+						v-else
+						@click="verItem(item)">
+						<v-icon small>
+							mdi-arrow-top-right-thick
+						</v-icon>
+						Enviar
+					</v-btn>
+				</template>
 			</v-data-table>
 		</v-card>
 	</div>
@@ -33,16 +51,30 @@ export default {
 					value: "lacre",
 				},
 				{
-					text: "Data",
-					value: "data",
+					text: "Data/Hora",
+					value: "dataHora",
 				},
 				{
 					text: "status",
 					value: "status",
 				},
+				{
+					value: "actions"
+				}
 			];
 		},
 	},
+
+	methods: {
+		verItem( item ){
+			this.$router.push({
+				name: "EnviarFCC",
+				params: {
+					id: item.id
+				}
+			})
+		}
+	}
 };
 </script>
 

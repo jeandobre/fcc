@@ -7,7 +7,14 @@
 				<v-spacer></v-spacer>
 				<v-btn small class="error" v-if="formulario.status === 'CADASTRADO'" @click="remover()">Excluir</v-btn>
 				<v-btn small class="secundary ml-3" v-if="formulario.status === 'CADASTRADO'" @click="alterar()">Alterar</v-btn>
-				<v-btn small class="primary ml-3" v-if="formulario.status === 'CADASTRADO'" @click="abrir()">Enviar</v-btn>
+				<v-btn small class="primary ml-3" 
+					v-if="formulario.status === 'CADASTRADO'" 
+					@click="abrir()">
+					<v-icon small>
+						mdi-arrow-top-right-thick
+					</v-icon>
+					Enviar
+				</v-btn>
 
 				<v-btn small class="secundary" v-if="formulario.status === 'ENVIADO'" @click="imprimir()">Imprimir</v-btn>
 			</v-card-title>

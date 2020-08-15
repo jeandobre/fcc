@@ -135,7 +135,7 @@ export default {
 	}),
 
 	methods: {
-		...mapMutations(["setFormularios", "setMensagem"]),
+		...mapMutations(["addFormulario", "setMensagem"]),
 
 		parseDate(date) {
 			if (!date) return null;
@@ -165,8 +165,8 @@ export default {
 			//todo gerar id randomicamente
 			const id = Math.floor(Math.random() * 10000 + 1);
 
-			const formularios = [];
-			formularios.push({
+			
+			const formulario = {
 				id,
 				lacre: this.lacre.valor,
 				dataHora: this.dataFormatada + " " + this.hora,
@@ -180,9 +180,9 @@ export default {
 				status: "CADASTRADO",
 				custodiante: this.usuarioLogado,
 				cadeia: []
-			});
+			};
 
-			this.setFormularios(formularios);
+			this.addFormulario(formulario);
 
 			this.$router.push({
 				name: "EnviarFCC",

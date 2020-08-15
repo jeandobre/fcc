@@ -51,12 +51,12 @@ export default {
 			{
 				title: "Novo FCC",
 				icon: "mdi-plus",
-				link: "/novo-fcc",
+				link: "/fcc/novo",
 			},
 			{
 				title: "Consultar QR-code",
 				icon: "mdi-qrcode",
-				link: "/listar-fcc",
+				link: "/fcc/listar",
 			},
 			{
 				title: "Sobre",
