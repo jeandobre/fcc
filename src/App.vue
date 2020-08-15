@@ -56,7 +56,7 @@ export default {
 			{
 				title: "Consultar QR-code",
 				icon: "mdi-qrcode",
-				link: "/consultar-fcc",
+				link: "/listar-fcc",
 			},
 			{
 				title: "Sobre",

@@ -26,6 +26,11 @@ Vue.use(VueRouter)
     name: "EnviarFCC",
     component: () => import(/* webpackChunkName: "enviar" */ '../views/EnviarFCC.vue')
   },
+  { 
+    path: "/listar-fcc",
+    name: "ListarFCC",
+    component: () => import(/* webpackChunkName: "listar" */ '../views/ListarFCC.vue')
+  },
   {
     path: '/about',
     name: 'About',
