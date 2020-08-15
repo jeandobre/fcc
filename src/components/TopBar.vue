@@ -1,6 +1,6 @@
 <template>
 	<v-app-bar app clipped-left color="deep-purple accent-4" dense dark>
-		<v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+		<v-app-bar-nav-icon @click.stop="mudar"></v-app-bar-nav-icon>
 		<span class="title ml-3 mr-15">
 			FCC&nbsp;
 			<span class="font-weight-light">Keep</span>
@@ -59,14 +59,22 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
 	name: "TopBar",
 
 	computed: {
-		...mapState(["usuarioLogado"]),
+		...mapState(["usuarioLogado", "drawer"]),
 	},
+
+	methods: {
+		...mapMutations(["setDrawer"]),
+		
+		mudar() {
+			this.setDrawer(!this.drawer);
+		}
+	}
 };
 </script>
 

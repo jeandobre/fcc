@@ -8,5 +8,6 @@ export default {
 	addFormulario(state, formulario) {
 		state.formularios.push(formulario);
 	},
-	setUnidades: set("unidades")
+	setUnidades: set("unidades"),
+	setDrawer: set("drawer")
 };

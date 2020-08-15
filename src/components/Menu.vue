@@ -16,13 +16,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
 	name: "Menu",
-  props: ["items", "drawer"],
-  model: {
-    prop: "drawer",
-    event: "input"
-  }
+  props: ["items"],
+
+  computed: mapState(["drawer"])
 }
 </script>
 

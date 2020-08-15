@@ -7,5 +7,6 @@ export default {
 		mostrar: false,
 		cor: "success"
 	},
-	unidades: []
+	unidades: [],
+	drawer: true
 }

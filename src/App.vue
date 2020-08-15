@@ -63,7 +63,7 @@ export default {
 				icon: "mdi-about",
 				link: "/about",
 			},
-		],
+		]
   }),
 
 	computed: {
