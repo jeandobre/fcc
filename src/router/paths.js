@@ -6,9 +6,7 @@ export default [
   {
     path: '/',
 		name: 'Home',
-		meta: {
-			requiresAuth: true
-		},
+		
     component: Home
   },
   {
@@ -19,9 +17,7 @@ export default [
   { 
     path: "/fcc/novo",
 		name: "NovoFCC",
-		meta: {
-			requiresAuth: true
-		},
+	
     component: () => import(/* webpackChunkName: "novo_fcc" */ '@/pages/fcc/Form.vue')
   },
   { 
